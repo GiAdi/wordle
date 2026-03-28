@@ -51,7 +51,6 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 	}, [attempts, correctWord]);
 
 	useEffect(() => {
-		console.log("hii");
 		const handleKeyPress = (e: KeyboardEvent) => {
 			const { key } = e;
 			const isBackspace = key === "Backspace";
@@ -76,7 +75,7 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 	return (
 		<div
 			style={{
-				height: "100vh",
+				height: "100dvh",
 				display: "flex",
 				flexDirection: "column",
 				fontFamily: "monospace",
@@ -120,7 +119,6 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 					flexDirection: "row",
 					justifyContent: "space-around",
 					alignItems: "center",
-					padding: "1rem",
 					gap: "1rem",
 				}}
 			>
@@ -130,7 +128,7 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 							data={grid.gridData}
 							currentAttempt={grid.currentAttempt}
 						/>
-						<Keypad data={grid.keypad} addChar={addChar} />
+						<Keypad data={grid.keypad} addChar={addChar} handleSubmit={handleSubmit}/>
 					</>
 				)}
 				{grid.status === GameStatus.Won && (

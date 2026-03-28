@@ -27,29 +27,32 @@ export const Grid = ({ data, currentAttempt }: GridProps) => {
 	);
 };
 
-const Row = React.memo(({ row, isCurrent }: RowProps) => (
-	<div
-		style={{
-			display: "flex",
-			gap: isCurrent
-				? "clamp(0.6rem, 2vw, 1.5rem)"
-				: "clamp(0.4rem, 1vw, 1rem)",
-			borderRadius: "25px",
-			padding: isCurrent
-				? "clamp(1rem, 5vw, 1.2rem)"
-				: "clamp(0.5rem, 2vw, 0.7rem)",
-			justifyContent: "center",
-			color: "darkslategray",
-			fontSize: isCurrent
-				? "clamp(1.5rem, 3vw, 3rem)"
-				: "clamp(1.2rem, 2vw, 2rem)",
-		}}
-	>
-		{row.rowData.map((cell, i) => (
-			<Cell key={`cell-${i}`} cell={cell} />
-		))}
-	</div>
-));
+const Row = React.memo(({ row, isCurrent }: RowProps) => {
+	// const rowFilled = row.rowData.every((_) => _.value);
+	return(
+		<div
+			style={{
+				display: "flex",
+				gap: isCurrent
+					? "clamp(0.6rem, 2vw, 1.5rem)"
+					: "clamp(0.4rem, 1vw, 1rem)",
+				borderRadius: "25px",
+				padding: isCurrent
+					? "clamp(1rem, 5vw, 1.2rem)"
+					: "clamp(0.5rem, 2vw, 0.7rem)",
+				justifyContent: "center",
+				color: "darkslategray",
+				fontSize: isCurrent
+					? "clamp(1.5rem, 3vw, 3rem)"
+					: "clamp(1.2rem, 2vw, 2rem)",
+			}}
+		>
+			{row.rowData.map((cell, i) => (
+				<Cell key={`cell-${i}`} cell={cell} />
+			))}
+		</div>
+	);
+});
 
 const Cell = React.memo(({ cell }: CellProps) => (
 	<span
@@ -60,7 +63,7 @@ const Cell = React.memo(({ cell }: CellProps) => (
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			borderRadius: '20%',
+			borderRadius: "20%",
 		}}
 	>
 		{cell.value}
