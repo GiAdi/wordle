@@ -41,13 +41,11 @@ export const Keypad = React.memo(
 			<div
 				style={{
 					display: "flex",
-					flex: 1,
 					flexDirection: "column",
 					position: "relative",
 					gap: "0.75rem",
 					alignItems: "center",
 					maxWidth: "clamp(400px,100vw, 700px)",
-					justifyContent: "center",
 				}}
 			>
 				{data.map((row, i) => (
@@ -90,7 +88,7 @@ const Cell = React.memo(({ cell, addChar, handleSubmit }: CellProps) => {
 	return (
 		<>
 			{cell.value === "Z" && (
-				<button style={keypadCellStyle} onClick={() => addChar("")}>
+				<button style={{...keypadCellStyle, flex:1}} onClick={() => addChar("")}>
 					<IoBackspaceOutline size={24}/>
 				</button>
 			)}
@@ -112,7 +110,7 @@ const Cell = React.memo(({ cell, addChar, handleSubmit }: CellProps) => {
 				{cell.value}
 			</button>
 			{cell.value === "M" && (
-				<button style={keypadCellStyle} onClick={handleSubmit}>
+				<button style={{...keypadCellStyle, flex:1}} onClick={handleSubmit}>
 					<IoReturnDownBack size={24}/>
 				</button>
 			)}

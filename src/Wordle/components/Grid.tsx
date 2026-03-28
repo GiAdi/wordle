@@ -10,9 +10,7 @@ export const Grid = ({ data, currentAttempt }: GridProps) => {
 		<div
 			style={{
 				display: "flex",
-				gap: "0.5rem",
 				flexDirection: "column",
-				flex: 1,
 				justifyContent: "center",
 			}}
 		>
@@ -28,7 +26,6 @@ export const Grid = ({ data, currentAttempt }: GridProps) => {
 };
 
 const Row = React.memo(({ row, isCurrent }: RowProps) => {
-	// const rowFilled = row.rowData.every((_) => _.value);
 	return(
 		<div
 			style={{
@@ -39,7 +36,7 @@ const Row = React.memo(({ row, isCurrent }: RowProps) => {
 				borderRadius: "25px",
 				padding: isCurrent
 					? "clamp(1rem, 5vw, 1.2rem)"
-					: "clamp(0.5rem, 2vw, 0.7rem)",
+					: "clamp(0.2rem, 2vw, 0.5rem)",
 				justifyContent: "center",
 				color: "darkslategray",
 				fontSize: isCurrent

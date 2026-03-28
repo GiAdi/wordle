@@ -75,18 +75,22 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 	return (
 		<div
 			style={{
-				height: "100dvh",
+				margin:0,
+				height: "100svh",
 				display: "flex",
 				flexDirection: "column",
 				fontFamily: "monospace",
+				alignItems: "center",
+				justifyContent: "space-between",
+				padding: '1rem',
+				boxSizing: 'border-box',
 			}}
 		>
 			<h1
 				style={{
 					display: "flex",
 					justifyContent: "center",
-					gap: "0.5rem",
-					padding: "1rem",
+					gap: "0.2rem",
 				}}
 			>
 				{heading.map((_, i) => (
@@ -100,8 +104,8 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 							color: "white",
 							padding: "0.5rem",
 							borderRadius: "5px",
-							width: "3rem",
-							height: "3rem",
+							width: "2rem",
+							height: "2rem",
 							display: "flex",
 							alignItems: "center",
 							justifyContent: "center",
@@ -111,33 +115,23 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 					</span>
 				))}
 			</h1>
-			<div
-				style={{
-					flex: 1,
-					display: "flex",
-					flexWrap: "wrap",
-					flexDirection: "row",
-					justifyContent: "space-around",
-					alignItems: "center",
-					gap: "1rem",
-				}}
-			>
-				{grid.status === GameStatus.Ongoing && (
-					<>
-						<Grid
-							data={grid.gridData}
-							currentAttempt={grid.currentAttempt}
-						/>
-						<Keypad data={grid.keypad} addChar={addChar} handleSubmit={handleSubmit}/>
-					</>
-				)}
-				{grid.status === GameStatus.Won && (
-					<h1>You Guessed the word!</h1>
-				)}
-				{grid.status === GameStatus.Lost && (
-					<h1>You ran out of attempts!</h1>
-				)}
-			</div>
+			{grid.status === GameStatus.Ongoing && (
+				<>
+					<Grid
+						data={grid.gridData}
+						currentAttempt={grid.currentAttempt}
+					/>
+					<Keypad
+						data={grid.keypad}
+						addChar={addChar}
+						handleSubmit={handleSubmit}
+					/>
+				</>
+			)}
+			{grid.status === GameStatus.Won && <h1>You Guessed the word!</h1>}
+			{grid.status === GameStatus.Lost && (
+				<h1>You ran out of attempts!</h1>
+			)}
 		</div>
 	);
 };
