@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useRef } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { wordleReducer } from "./WordleReducer";
 import { createInitialGrid } from "./utils";
 import { Keypad } from "./components/Keypad";
@@ -25,32 +25,18 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 		[attempts],
 	);
 
-	const handleSubmit = () =>
-		dispatch({
-			type: WORDLE_ACTIONS.SUBMIT_ATTEMPT,
-			payload: { correctWord, attempts },
-		});
+	const handleSubmit = useCallback(
+		() =>
+			dispatch({
+				type: WORDLE_ACTIONS.SUBMIT_ATTEMPT,
+				payload: { correctWord, attempts },
+			}),
+		[attempts, correctWord],
+	);
 
 	const isFromInteractiveElement = (target: EventTarget | null): boolean =>
 		target instanceof HTMLElement &&
 		["BUTTON", "INPUT", "TEXTAREA"].includes(target.tagName);
-
-	const handleKeyPress = (e: KeyboardEvent) => {
-		const { key } = e;
-		const isBackspace = key === "Backspace";
-		const isChar = /^[a-zA-Z]$/.test(key);
-		const isEnter = key === "Enter";
-		const isSpace = key === " ";
-
-		if (isFromInteractiveElement(e.target) && (isEnter || isSpace)) return;
-		if (!(isBackspace || isChar || isEnter)) return;
-
-		if (isEnter) {
-			handleSubmit();
-		} else {
-			addChar(isBackspace ? "" : key.toUpperCase());
-		}
-	};
 
 	const heading =
 		grid.status === GameStatus.Won
@@ -64,15 +50,28 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 		});
 	}, [attempts, correctWord]);
 
-	const handlerRef = useRef(handleKeyPress);
 	useEffect(() => {
-		handlerRef.current = handleKeyPress;
-	}, [handleKeyPress]);
-	useEffect(() => {
-		const listener = (e: KeyboardEvent) => handlerRef.current(e);
-		window.addEventListener("keydown", listener);
-		return () => window.removeEventListener("keydown", listener);
-	}, []);
+		console.log("hii");
+		const handleKeyPress = (e: KeyboardEvent) => {
+			const { key } = e;
+			const isBackspace = key === "Backspace";
+			const isChar = /^[a-zA-Z]$/.test(key);
+			const isEnter = key === "Enter";
+			const isSpace = key === " ";
+
+			if (isFromInteractiveElement(e.target) && (isEnter || isSpace))
+				return;
+			if (!(isBackspace || isChar || isEnter)) return;
+
+			if (isEnter) {
+				handleSubmit();
+			} else {
+				addChar(isBackspace ? "" : key.toUpperCase());
+			}
+		};
+		window.addEventListener("keydown", handleKeyPress);
+		return () => window.removeEventListener("keydown", handleKeyPress);
+	}, [addChar, handleSubmit]);
 
 	return (
 		<div
@@ -92,7 +91,8 @@ export const Wordle = ({ word, attempts }: WordleProps) => {
 				}}
 			>
 				{heading.map((_, i) => (
-					<span key={i}
+					<span
+						key={i}
 						style={{
 							backgroundColor:
 								grid.status === GameStatus.Won
